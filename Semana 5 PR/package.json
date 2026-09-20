@@ -1,0 +1,21 @@
+{
+  "name": "semana-5-pr",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "apollo-server-express": "^3.13.0",
+    "cors": "^2.8.6",
+    "express": "^4.22.3",
+    "graphql": "^16.14.2",
+    "mongoose": "^9.10.1",
+    "nodemon": "^3.1.14"
+  }
+}
