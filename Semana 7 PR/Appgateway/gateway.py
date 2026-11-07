@@ -6,18 +6,19 @@ from fastapi import FastAPI, HTTPException
 # Inicialización de la API
 app = FastAPI(
     title="API Gateway - El Asador",
-    description="Recibe las solicitudes y las enruta hacia el Backend API"
+    description="Recibe las solicitudes y las enruta hacia los Backend API"
 )
 
-# Dirección del Backend API (se puede cambiar con la variable BACKEND_URL)
+# Dirección de cada Backend (se pueden cambiar con variables de entorno)
 BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:9000")
+BACKEND_URL_2 = os.getenv("BACKEND_URL_2", "http://localhost:9100")
 
 
-# Llama al backend y devuelve su respuesta
-async def pedir_al_backend(ruta):
+# Llama a un backend y devuelve su respuesta
+async def pedir_al_backend(base_url, ruta):
     try:
         async with httpx.AsyncClient(timeout=10.0) as client:
-            response = await client.get(f"{BACKEND_URL}{ruta}")
+            response = await client.get(f"{base_url}{ruta}")
     except httpx.RequestError:
         raise HTTPException(status_code=502, detail="Backend no disponible")
 
@@ -36,13 +37,19 @@ def health():
     }
 
 
-# Endpoint de productos (enruta hacia el backend)
+# /api/products se resuelve con el Backend 1 (puerto 9000)
 @app.get("/api/products")
 async def products():
-    return await pedir_al_backend("/products")
+    return await pedir_al_backend(BACKEND_URL, "/products")
 
 
-# Endpoint de órdenes (enruta hacia el backend)
+# /api/productos se resuelve con el Backend 2 (puerto 9100)
+@app.get("/api/productos")
+async def productos():
+    return await pedir_al_backend(BACKEND_URL_2, "/productos")
+
+
+# /api/orders se resuelve con el Backend 1 (puerto 9000)
 @app.get("/api/orders")
 async def orders():
-    return await pedir_al_backend("/orders")
+    return await pedir_al_backend(BACKEND_URL, "/orders")
