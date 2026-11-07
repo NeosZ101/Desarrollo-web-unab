@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="es" data-bs-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Empresa | El Asador</title>
+  <meta name="description" content="Conoce a El Asador: quiénes somos, misión, visión, valores y el equipo detrás de la parrilla.">
+  <link rel="icon" type="image/svg+xml" href="img/favicon.svg">
+  <link rel="stylesheet" href="css/vendor/bootstrap.min.css">
+  <link rel="stylesheet" href="css/vendor/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="css/fuentes.css">
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body class="d-flex flex-column min-vh-100">
+  <a class="visually-hidden-focusable" href="#contenido">Saltar al contenido</a>
+
+  <noscript><p class="aviso-noscript">Este sitio necesita JavaScript para mostrar la carta y el carrito. Actívalo en tu navegador para continuar.</p></noscript>
+<header class="cabecera">
+  <nav class="navbar navbar-expand-lg navbar-dark nav-asador" aria-label="Menú principal">
+    <div class="container-fluid contenedor-asador">
+
+      <!-- Marca: bandera, cartel con el nombre y bandera (como en el boceto) -->
+      <a class="marca" href="index.html" aria-label="El Asador, parrilladas familiares. Ir al inicio">
+        <img class="marca-bandera" src="img/bandera-chile.svg" alt="" width="54" height="36">
+        <span class="marca-cartel">
+          <span class="marca-nombre">El Asador</span>
+          <span class="marca-lema">Parrilladas familiares</span>
+        </span>
+        <img class="marca-bandera marca-bandera-der" src="img/bandera-chile.svg" alt="" width="54" height="36">
+      </a>
+
+      <!-- Carrito: siempre visible, también en el celular -->
+      <a class="boton-carrito ms-auto ms-lg-2 order-lg-last" href="index.html#carrito" id="enlace-carrito" aria-label="Ir al carrito">
+        <i class="bi bi-cart3" aria-hidden="true"></i>
+        <span class="contador-carrito" id="contador-carrito" hidden>0</span>
+      </a>
+
+      <button class="navbar-toggler ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar" aria-controls="collapsibleNavbar" aria-expanded="false" aria-label="Abrir o cerrar el menú">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="collapsibleNavbar">
+        <ul class="navbar-nav ms-auto align-items-lg-center">
+          <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
+          <li class="nav-item"><a class="nav-link" href="productos.html">Carta</a></li>
+          <li class="nav-item"><a class="nav-link" href="productos.html#promos">Promos</a></li>
+          <li class="nav-item"><a class="nav-link" href="servicios.html">Servicios</a></li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Empresa</a>
+            <ul class="dropdown-menu dropdown-menu-dark">
+              <li><a class="dropdown-item" href="empresa.html#quienes-somos">Quiénes somos</a></li>
+              <li><a class="dropdown-item" href="empresa.html#valores">Misión, visión y valores</a></li>
+              <li><a class="dropdown-item" href="empresa.html#equipo">Nuestro equipo</a></li>
+            </ul>
+          </li>
+          <li class="nav-item"><a class="nav-link" href="contacto.html">Contacto</a></li>
+          <li class="nav-item ms-lg-2"><a class="btn btn-fuego" href="index.html#carrito">Pedir</a></li>
+
+          <!-- Teléfono: texto plano, sin menú desplegable -->
+          <li class="nav-item ms-lg-2"><span class="text-light d-none d-lg-inline me-3"><i class="bi bi-telephone-fill text-danger"></i> +56 9 0000 0000</span></li>
+          <!-- "Acceder": el JS lo cambia por el nombre de la persona cuando inicia sesión -->
+          <li class="nav-item dropdown ms-lg-2" id="zona-cuenta">
+            <button type="button" class="btn btn-contorno" data-bs-toggle="modal" data-bs-target="#modal-acceso"><i class="bi bi-person-circle" aria-hidden="true"></i> Acceder</button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>
+
+  <main id="contenido" class="container my-4 flex-grow-1">
+  <h1 class="caja-titulo">Empresa</h1>
+  <section id="quienes-somos" class="mb-5" aria-labelledby="titulo-quienes">
+    <div class="caja">
+      <div class="caja-cabecera"><h2 class="caja-titulo" id="titulo-quienes">Quiénes somos</h2></div>
+      <p>El Asador nació como una parrilla de barrio en Ñuñoa. Al principio solo vendíamos en el local, que es pequeño y tiene pocas mesas. Cada fin de semana había fila, y muchas familias nos pedían llevarles el asado a la casa.</p>
+      <p>Por eso abrimos el pedido en línea: eliges tu parrillada, pagas de forma segura y un repartidor la lleva hasta tu puerta. Seguimos cocinando igual que siempre, al carbón y con cortes elegidos cada mañana.</p>
+      <p class="mb-0">El despacho es gratis hasta 3 km del local. Si vives más lejos, te mostramos el costo antes de pagar, sin sorpresas.</p>
+    </div>
+  </section>
+  <section id="valores" class="mb-5" aria-labelledby="titulo-valores">
+    <h2 class="caja-titulo" id="titulo-valores">Misión, visión y valores</h2>
+    <div class="row g-3" id="lista-valores"></div>
+  </section>
+  <section id="equipo" aria-labelledby="titulo-equipo">
+    <h2 class="caja-titulo" id="titulo-equipo">Nuestro equipo</h2>
+    <p>Las personas detrás de la parrilla y del despacho.</p>
+    <div class="row g-3" id="lista-equipo"></div>
+  </section>
+</main>
+
+  <!-- Footer permanente: grilla de Bootstrap (container-fluid, row, col) -->
+<footer class="pie container-fluid mt-auto">
+  <div class="contenedor-asador">
+    <div class="row g-4">
+      <div class="col-md-4">
+        <p class="pie-marca">El Asador</p>
+        <p>Parrilladas familiares con despacho a domicilio en Santiago.</p>
+        <p class="pie-credito">
+          <strong>Desarrollo Web - Sección 3</strong><br>
+          Proyecto: El Asador, Caso 20<br>
+          Desarrollado por: Pablo Labra (NeosZ101) &copy; 2026
+        </p>
+      </div>
+      <div class="col-12 col-sm-6 col-md-3">
+        <h2 class="pie-titulo">Enlaces rápidos</h2>
+        <ul class="pie-enlaces">
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="productos.html">Carta</a></li>
+          <li><a href="servicios.html">Servicios</a></li>
+          <li><a href="empresa.html">Empresa</a></li>
+          <li><a href="contacto.html">Contacto</a></li>
+          <li><a href="registro.html">Crear cuenta</a></li>
+          <li><a href="admin.html">Personal</a></li>
+        </ul>
+      </div>
+      <div class="col-12 col-sm-6 col-md-5">
+        <h2 class="pie-titulo">Visítanos</h2>
+        <address class="pie-direccion">
+          <p><i class="bi bi-geo-alt" aria-hidden="true"></i> Av. Los Carboneros 1450, Ñuñoa, Santiago</p>
+          <p><i class="bi bi-clock" aria-hidden="true"></i> Martes a domingo, de 12:00 a 23:00 h</p>
+          <p><i class="bi bi-telephone" aria-hidden="true"></i> +56 9 0000 0000</p>
+        </address>
+        <ul class="redes" aria-label="Redes sociales">
+          <li><a href="https://instagram.com" aria-label="Instagram de El Asador"><i class="bi bi-instagram" aria-hidden="true"></i></a></li>
+          <li><a href="https://facebook.com" aria-label="Facebook de El Asador"><i class="bi bi-facebook" aria-hidden="true"></i></a></li>
+          <li><a href="https://x.com" aria-label="X (Twitter) de El Asador"><i class="bi bi-twitter-x" aria-hidden="true"></i></a></li>
+          <li><a href="https://wa.me/56900000000" aria-label="WhatsApp de El Asador"><i class="bi bi-whatsapp" aria-hidden="true"></i></a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Ventana "Acceder" (la usan todas las páginas) -->
+<div class="modal fade" id="modal-acceso" tabindex="-1" aria-labelledby="titulo-acceso" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form id="form-acceso" novalidate>
+        <div class="modal-header">
+          <h2 class="modal-title fs-4" id="titulo-acceso">Acceder a El Asador</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <div class="alert alert-danger" id="acceso-error" role="alert" hidden></div>
+          <div class="campo mb-3">
+            <label for="acceso-correo" class="form-label">Correo electrónico</label>
+            <input type="email" class="form-control" id="acceso-correo" name="correo" autocomplete="username" required placeholder="nombre@correo.cl">
+            <div class="invalid-feedback"></div>
+          </div>
+          <div class="campo mb-3">
+            <label for="acceso-clave" class="form-label">Contraseña</label>
+            <input type="password" class="form-control" id="acceso-clave" name="clave" autocomplete="current-password" required minlength="6" placeholder="Mínimo 6 caracteres">
+            <div class="invalid-feedback"></div>
+          </div>
+          <p class="mb-3">¿Primera vez? <a href="registro.html">Crea tu cuenta de cliente</a>.</p>
+          <details class="cuentas-prueba">
+            <summary>Cuentas de prueba (solo para la demostración)</summary>
+            <ul id="cuentas-prueba">
+              <li><strong>Administrador: </strong>admin@elasador.cl / admin123</li>
+              <li><strong>Dueño: </strong>dueno@elasador.cl / dueno123</li>
+              <li><strong>Encargado de despacho: </strong>despacho@elasador.cl / despacho123</li>
+              <li><strong>Cliente: </strong>andrea.molina@correo.cl / cualquier clave de 6 o más caracteres</li>
+            </ul>
+          </details>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-contorno" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-brasa">Acceder</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Ayuda en línea: botón flotante y ventana con las preguntas frecuentes.
+     Usa el acordeón de Bootstrap, por eso no necesita JavaScript propio. -->
+<div class="ayuda">
+  <button type="button" class="ayuda-boton" data-bs-toggle="modal" data-bs-target="#modal-ayuda">
+    <i class="bi bi-question-circle-fill" aria-hidden="true"></i><span>Ayuda</span>
+  </button>
+</div>
+
+<div class="modal fade" id="modal-ayuda" tabindex="-1" aria-labelledby="titulo-ayuda" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title fs-4" id="titulo-ayuda">Ayuda en línea</h2>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        <p>Respuestas rápidas a las preguntas más frecuentes.</p>
+        <div class="accordion accordion-flush" id="acordeon-ayuda">
+          <div class="accordion-item">
+            <h3 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ayuda-horarios" aria-expanded="false" aria-controls="ayuda-horarios">Horarios</button>
+            </h3>
+            <div id="ayuda-horarios" class="accordion-collapse collapse" data-bs-parent="#acordeon-ayuda">
+              <div class="accordion-body">Atendemos de martes a domingo, de 12:00 a 23:00 h. Los lunes descansamos.</div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h3 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ayuda-despacho" aria-expanded="false" aria-controls="ayuda-despacho">Despacho</button>
+            </h3>
+            <div id="ayuda-despacho" class="accordion-collapse collapse" data-bs-parent="#acordeon-ayuda">
+              <div class="accordion-body">Despachamos gratis hasta 3 km del local. Sobre esa distancia se cobra un valor según tu comuna. <a href="servicios.html#despacho">Ver costos de despacho</a>.</div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h3 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ayuda-pago" aria-expanded="false" aria-controls="ayuda-pago">Medios de pago</button>
+            </h3>
+            <div id="ayuda-pago" class="accordion-collapse collapse" data-bs-parent="#acordeon-ayuda">
+              <div class="accordion-body">Puedes pagar en línea con Servipag o por transferencia y depósito bancario.</div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h3 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ayuda-promos" aria-expanded="false" aria-controls="ayuda-promos">Promos</button>
+            </h3>
+            <div id="ayuda-promos" class="accordion-collapse collapse" data-bs-parent="#acordeon-ayuda">
+              <div class="accordion-body">Las promociones vigentes están en la página de inicio y se agregan al carrito con un clic. <a href="index.html#promos">Ver las promos</a>.</div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h3 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ayuda-alcanza" aria-expanded="false" aria-controls="ayuda-alcanza">¿Cuánto alcanza?</button>
+            </h3>
+            <div id="ayuda-alcanza" class="accordion-collapse collapse" data-bs-parent="#acordeon-ayuda">
+              <div class="accordion-body">La parrillada para 2 alcanza para 2 personas, la familiar para 4 y la XL para 6. Para eventos usa el cotizador. <a href="servicios.html#eventos">Cotizar un evento</a>.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <span class="me-auto">¿No encontraste tu respuesta?</span>
+        <a href="contacto.html" class="btn btn-brasa">Ir a Contacto</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Contenedor de los avisos: la función avisar() de comun.js escribe aquí -->
+<div id="avisos" class="toast-container position-fixed bottom-0 start-0 p-3"></div>
+
+<!-- Aquí se arma la orden de despacho al imprimir (imprimirHoja en comun.js) -->
+<div id="hoja-impresion"></div>
+
+<!-- Scripts comunes: Bootstrap primero, luego los datos simulados y las funciones compartidas -->
+<script src="js/vendor/bootstrap.bundle.min.js"></script>
+<script src="js/datos.js"></script>
+<script src="js/comun.js"></script>
+  <script src="js/empresa.js"></script>
+</body>
+</html>

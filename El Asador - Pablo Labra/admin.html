@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="es" data-bs-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel interno | El Asador</title>
+  <meta name="description" content="Panel interno de El Asador: reporte de ventas, mantenedores de productos y clientes y órdenes de despacho.">
+  <link rel="icon" type="image/svg+xml" href="img/favicon.svg">
+  <link rel="stylesheet" href="css/vendor/bootstrap.min.css">
+  <link rel="stylesheet" href="css/vendor/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="css/fuentes.css">
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body class="d-flex flex-column min-vh-100">
+  <a class="visually-hidden-focusable" href="#contenido">Saltar al contenido</a>
+
+  <noscript><p class="aviso-noscript">Este sitio necesita JavaScript para mostrar la carta y el carrito. Actívalo en tu navegador para continuar.</p></noscript>
+<header class="cabecera">
+  <nav class="navbar navbar-expand-lg navbar-dark nav-asador" aria-label="Menú principal">
+    <div class="container-fluid contenedor-asador">
+
+      <!-- Marca: bandera, cartel con el nombre y bandera (como en el boceto) -->
+      <a class="marca" href="index.html" aria-label="El Asador, parrilladas familiares. Ir al inicio">
+        <img class="marca-bandera" src="img/bandera-chile.svg" alt="" width="54" height="36">
+        <span class="marca-cartel">
+          <span class="marca-nombre">El Asador</span>
+          <span class="marca-lema">Parrilladas familiares</span>
+        </span>
+        <img class="marca-bandera marca-bandera-der" src="img/bandera-chile.svg" alt="" width="54" height="36">
+      </a>
+
+      <!-- Carrito: siempre visible, también en el celular -->
+      <a class="boton-carrito ms-auto ms-lg-2 order-lg-last" href="index.html#carrito" id="enlace-carrito" aria-label="Ir al carrito">
+        <i class="bi bi-cart3" aria-hidden="true"></i>
+        <span class="contador-carrito" id="contador-carrito" hidden>0</span>
+      </a>
+
+      <button class="navbar-toggler ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar" aria-controls="collapsibleNavbar" aria-expanded="false" aria-label="Abrir o cerrar el menú">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="collapsibleNavbar">
+        <ul class="navbar-nav ms-auto align-items-lg-center">
+          <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
+          <li class="nav-item"><a class="nav-link" href="productos.html">Carta</a></li>
+          <li class="nav-item"><a class="nav-link" href="productos.html#promos">Promos</a></li>
+          <li class="nav-item"><a class="nav-link" href="servicios.html">Servicios</a></li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Empresa</a>
+            <ul class="dropdown-menu dropdown-menu-dark">
+              <li><a class="dropdown-item" href="empresa.html#quienes-somos">Quiénes somos</a></li>
+              <li><a class="dropdown-item" href="empresa.html#valores">Misión, visión y valores</a></li>
+              <li><a class="dropdown-item" href="empresa.html#equipo">Nuestro equipo</a></li>
+            </ul>
+          </li>
+          <li class="nav-item"><a class="nav-link" href="contacto.html">Contacto</a></li>
+          <li class="nav-item ms-lg-2"><a class="btn btn-fuego" href="index.html#carrito">Pedir</a></li>
+
+          <!-- Teléfono: texto plano, sin menú desplegable -->
+          <li class="nav-item ms-lg-2"><span class="text-light d-none d-lg-inline me-3"><i class="bi bi-telephone-fill text-danger"></i> +56 9 0000 0000</span></li>
+          <!-- "Acceder": el JS lo cambia por el nombre de la persona cuando inicia sesión -->
+          <li class="nav-item dropdown ms-lg-2" id="zona-cuenta">
+            <button type="button" class="btn btn-contorno" data-bs-toggle="modal" data-bs-target="#modal-acceso"><i class="bi bi-person-circle" aria-hidden="true"></i> Acceder</button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>
+
+  <main id="contenido" class="container my-4 flex-grow-1">
+  <h1 class="h2">Panel interno</h1>
+  <p class="mb-3">Vistas para el personal de El Asador. Cada perfil ve solo lo que le corresponde.</p>
+  <div id="admin-acceso" class="alert alert-warning" hidden>
+    <h2 class="h5">Acceso solo para el personal</h2>
+    <p id="admin-acceso-texto"></p>
+    <div id="admin-acceso-acciones"><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-acceso">Acceder</button></div>
+    <button type="button" class="btn btn-outline-light" id="admin-salir" hidden>Cerrar sesión</button>
+  </div>
+  <div id="admin-panel" class="card bg-dark" hidden>
+    <div class="card-header">
+      <ul class="nav nav-tabs card-header-tabs" id="admin-menu" role="tablist">
+        <li class="nav-item" role="presentation" data-seccion="ventas"><button class="nav-link" id="menu-ventas" data-bs-toggle="tab" data-bs-target="#tab-ventas" type="button" role="tab" aria-controls="tab-ventas" aria-selected="false">Ventas</button></li>
+        <li class="nav-item" role="presentation" data-seccion="productos"><button class="nav-link" id="menu-productos" data-bs-toggle="tab" data-bs-target="#tab-productos" type="button" role="tab" aria-controls="tab-productos" aria-selected="false">Productos</button></li>
+        <li class="nav-item" role="presentation" data-seccion="clientes"><button class="nav-link" id="menu-clientes" data-bs-toggle="tab" data-bs-target="#tab-clientes" type="button" role="tab" aria-controls="tab-clientes" aria-selected="false">Clientes</button></li>
+        <li class="nav-item" role="presentation" data-seccion="despacho"><button class="nav-link" id="menu-despacho" data-bs-toggle="tab" data-bs-target="#tab-despacho" type="button" role="tab" aria-controls="tab-despacho" aria-selected="false">Despacho</button></li>
+      </ul>
+    </div>
+    <div class="card-body tab-content">
+      <section class="tab-pane fade" id="tab-ventas" role="tabpanel" aria-labelledby="menu-ventas" tabindex="0">
+        <h2 class="h5 mb-3">Reporte de ventas por período</h2>
+        <div class="row g-3 mb-3">
+          <div class="col-sm-6 col-md-3"><label class="form-label" for="vt-desde">Desde</label><input class="form-control" type="date" id="vt-desde"></div>
+          <div class="col-sm-6 col-md-3"><label class="form-label" for="vt-hasta">Hasta</label><input class="form-control" type="date" id="vt-hasta"></div>
+        </div>
+        <p id="vt-error" class="alert alert-warning" role="alert" hidden></p>
+        <dl class="row">
+          <dt class="col-sm-3">Ventas del período</dt><dd class="col-sm-9" id="kpi-ventas">$0</dd>
+          <dt class="col-sm-3">Pedidos</dt><dd class="col-sm-9" id="kpi-pedidos">0</dd>
+          <dt class="col-sm-3">Ticket promedio</dt><dd class="col-sm-9" id="kpi-ticket">$0</dd>
+          <dt class="col-sm-3">Mejor día</dt><dd class="col-sm-9" id="kpi-mejor">-</dd>
+        </dl>
+        <div class="table-responsive">
+          <table class="table table-dark table-striped" id="vt-tabla">
+            <caption class="visually-hidden">Ventas por día del período elegido</caption>
+            <thead><tr><th scope="col">Día</th><th scope="col" class="text-end">Pedidos</th><th scope="col" class="text-end">Ventas</th><th scope="col" class="text-end">Ticket promedio</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+      <section class="tab-pane fade" id="tab-productos" role="tabpanel" aria-labelledby="menu-productos" tabindex="0">
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+          <h2 class="h5 mb-0">Mantenedor de productos</h2>
+          <button type="button" class="btn btn-sm btn-primary" id="pr-nuevo">Nuevo producto</button>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-dark table-striped" id="pr-tabla">
+            <caption class="visually-hidden">Productos de la carta y su disponibilidad</caption>
+            <thead><tr><th scope="col">Producto</th><th scope="col">Categoría</th><th scope="col" class="text-end">Precio</th><th scope="col">Disponibilidad</th><th scope="col">Acciones</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+      <section class="tab-pane fade" id="tab-clientes" role="tabpanel" aria-labelledby="menu-clientes" tabindex="0">
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+          <h2 class="h5 mb-0">Mantenedor de clientes</h2>
+          <button type="button" class="btn btn-sm btn-primary" id="cl-nuevo">Registrar cliente en el local</button>
+        </div>
+        <label class="form-label" for="cl-buscar">Buscar cliente por nombre, correo o RUN</label>
+        <input type="search" class="form-control mb-3" id="cl-buscar" autocomplete="off">
+        <div class="table-responsive">
+          <table class="table table-dark table-striped" id="cl-tabla">
+            <caption class="visually-hidden">Clientes registrados</caption>
+            <thead><tr><th scope="col">RUN</th><th scope="col">Nombre</th><th scope="col">Correo</th><th scope="col">Teléfono</th><th scope="col">Comuna</th><th scope="col">Registro</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+      <section class="tab-pane fade" id="tab-despacho" role="tabpanel" aria-labelledby="menu-despacho" tabindex="0">
+        <h2 class="h5 mb-3">Órdenes de despacho</h2>
+        <div class="row g-3 mb-2">
+          <div class="col-md-5">
+            <label class="form-label" for="de-filtro">Filtrar pedidos por estado</label>
+            <select class="form-select" id="de-filtro">
+              <option value="activos" selected>Activos (por preparar y en reparto)</option>
+              <option>Pago pendiente</option>
+              <option>En preparación</option>
+              <option>En camino</option>
+              <option>Entregado</option>
+              <option>Anulado</option>
+              <option value="todos">Todos</option>
+            </select>
+          </div>
+        </div>
+        <p class="text-body-secondary">Los pedidos activos aparecen en orden de llegada, para entregar las órdenes a cocina en ese orden.</p>
+        <div class="table-responsive">
+          <table class="table table-dark table-striped" id="de-tabla">
+            <caption class="visually-hidden">Pedidos y su estado</caption>
+            <thead><tr><th scope="col">Pedido</th><th scope="col">Fecha</th><th scope="col">Cliente</th><th scope="col">Dirección</th><th scope="col" class="text-end">Total</th><th scope="col">Pago</th><th scope="col">Estado</th><th scope="col">Acciones</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+    <div class="card-footer d-flex flex-wrap justify-content-between align-items-center gap-2">
+      <span id="admin-usuario"></span>
+      <span id="admin-conteo"></span>
+      <button type="button" class="btn btn-sm btn-outline-light" id="admin-restablecer" hidden>Restablecer datos de ejemplo</button>
+    </div>
+  </div>
+</main>
+<div class="modal fade" id="modal-producto-admin" tabindex="-1" aria-labelledby="titulo-producto-admin" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form id="form-producto">
+        <div class="modal-header">
+          <h2 class="modal-title fs-4" id="titulo-producto-admin">Nuevo producto</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" id="pa-id">
+          <div class="row g-3">
+            <div class="col-12">
+              <label class="form-label" for="pa-nombre">Nombre</label>
+              <input class="form-control" id="pa-nombre" type="text" required minlength="3" maxlength="60">
+              <div class="invalid-feedback"></div>
+            </div>
+            <div class="col-sm-6">
+              <label class="form-label" for="pa-categoria">Categoría</label>
+              <select class="form-select" id="pa-categoria" required></select>
+              <div class="invalid-feedback"></div>
+            </div>
+            <div class="col-sm-6">
+              <label class="form-label" for="pa-precio">Precio (CLP)</label>
+              <input class="form-control" id="pa-precio" type="number" inputmode="numeric" required min="500" max="200000" step="10">
+              <div class="invalid-feedback"></div>
+            </div>
+            <div class="col-12">
+              <label class="form-label" for="pa-imagen">Imagen</label>
+              <select class="form-select" id="pa-imagen" required></select>
+              <div class="invalid-feedback"></div>
+            </div>
+            <div class="col-12">
+              <label class="form-label" for="pa-descripcion">Descripción</label>
+              <textarea class="form-control" id="pa-descripcion" rows="3" required minlength="10" maxlength="160"></textarea>
+              <div class="invalid-feedback"></div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="modal-cliente-admin" tabindex="-1" aria-labelledby="titulo-cliente-admin" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form id="form-cliente">
+        <div class="modal-header">
+          <h2 class="modal-title fs-4" id="titulo-cliente-admin">Registrar cliente en el local</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row g-3">
+            <div class="col-sm-5">
+              <label class="form-label" for="ca-run">RUN</label>
+              <input class="form-control" id="ca-run" type="text" required autocomplete="off" placeholder="12.345.678-5">
+              <div class="invalid-feedback"></div>
+            </div>
+            <div class="col-sm-7">
+              <label class="form-label" for="ca-nombre">Nombre completo</label>
+              <input class="form-control" id="ca-nombre" type="text" required>
+              <div class="invalid-feedback"></div>
+            </div>
+            <div class="col-sm-7">
+              <label class="form-label" for="ca-correo">Correo electrónico</label>
+              <input class="form-control" id="ca-correo" type="email" required>
+              <div class="invalid-feedback"></div>
+            </div>
+            <div class="col-sm-5">
+              <label class="form-label" for="ca-telefono">Teléfono</label>
+              <input class="form-control" id="ca-telefono" type="tel" required placeholder="+56 9 1234 5678">
+              <div class="invalid-feedback"></div>
+            </div>
+            <div class="col-sm-7">
+              <label class="form-label" for="ca-direccion">Dirección</label>
+              <input class="form-control" id="ca-direccion" type="text" required minlength="5">
+              <div class="invalid-feedback"></div>
+            </div>
+            <div class="col-sm-5">
+              <label class="form-label" for="ca-comuna">Comuna</label>
+              <select class="form-select" id="ca-comuna" required></select>
+              <div class="invalid-feedback"></div>
+            </div>
+          </div>
+          <p class="text-body-secondary mt-3 mb-0">El caso pide validar que el correo exista: en el sistema real se enviará un código de verificación, igual que en el registro por web.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Registrar cliente</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="modal-anulacion" tabindex="-1" aria-labelledby="titulo-anulacion" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form id="form-anulacion">
+        <div class="modal-header">
+          <h2 class="modal-title fs-4" id="titulo-anulacion">Anular compra</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <p id="anulacion-texto"></p>
+          <div class="mb-3">
+            <label class="form-label" for="anulacion-motivo">Motivo de la anulación</label>
+            <select id="anulacion-motivo" class="form-select" required>
+              <option value="">Elige un motivo</option>
+              <option>Me equivoqué al armar el pedido</option>
+              <option>Ya no lo necesito</option>
+              <option>Se demora mucho el despacho</option>
+              <option>Encontré otra opción</option>
+              <option>Otro motivo</option>
+            </select>
+            <div class="invalid-feedback"></div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label" for="anulacion-detalle">Cuéntanos más (obligatorio si elegiste «Otro motivo»)</label>
+            <textarea id="anulacion-detalle" class="form-control" rows="3" maxlength="200"></textarea>
+            <div class="invalid-feedback"></div>
+          </div>
+          <p class="text-body-secondary mb-0">Un pedido anulado no se prepara ni se despacha. Si ya estaba pagado, se devuelve el dinero al mismo medio de pago.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal">Mantener pedido</button>
+          <button type="submit" class="btn btn-danger">Anular compra</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- Footer permanente: grilla de Bootstrap (container-fluid, row, col) -->
+<footer class="pie container-fluid mt-auto">
+  <div class="contenedor-asador">
+    <div class="row g-4">
+      <div class="col-md-4">
+        <p class="pie-marca">El Asador</p>
+        <p>Parrilladas familiares con despacho a domicilio en Santiago.</p>
+        <p class="pie-credito">
+          <strong>Desarrollo Web - Sección 3</strong><br>
+          Proyecto: El Asador, Caso 20<br>
+          Desarrollado por: Pablo Labra (NeosZ101) &copy; 2026
+        </p>
+      </div>
+      <div class="col-12 col-sm-6 col-md-3">
+        <h2 class="pie-titulo">Enlaces rápidos</h2>
+        <ul class="pie-enlaces">
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="productos.html">Carta</a></li>
+          <li><a href="servicios.html">Servicios</a></li>
+          <li><a href="empresa.html">Empresa</a></li>
+          <li><a href="contacto.html">Contacto</a></li>
+          <li><a href="registro.html">Crear cuenta</a></li>
+          <li><a href="admin.html">Personal</a></li>
+        </ul>
+      </div>
+      <div class="col-12 col-sm-6 col-md-5">
+        <h2 class="pie-titulo">Visítanos</h2>
+        <address class="pie-direccion">
+          <p><i class="bi bi-geo-alt" aria-hidden="true"></i> Av. Los Carboneros 1450, Ñuñoa, Santiago</p>
+          <p><i class="bi bi-clock" aria-hidden="true"></i> Martes a domingo, de 12:00 a 23:00 h</p>
+          <p><i class="bi bi-telephone" aria-hidden="true"></i> +56 9 0000 0000</p>
+        </address>
+        <ul class="redes" aria-label="Redes sociales">
+          <li><a href="https://instagram.com" aria-label="Instagram de El Asador"><i class="bi bi-instagram" aria-hidden="true"></i></a></li>
+          <li><a href="https://facebook.com" aria-label="Facebook de El Asador"><i class="bi bi-facebook" aria-hidden="true"></i></a></li>
+          <li><a href="https://x.com" aria-label="X (Twitter) de El Asador"><i class="bi bi-twitter-x" aria-hidden="true"></i></a></li>
+          <li><a href="https://wa.me/56900000000" aria-label="WhatsApp de El Asador"><i class="bi bi-whatsapp" aria-hidden="true"></i></a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Ventana "Acceder" (la usan todas las páginas) -->
+<div class="modal fade" id="modal-acceso" tabindex="-1" aria-labelledby="titulo-acceso" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form id="form-acceso" novalidate>
+        <div class="modal-header">
+          <h2 class="modal-title fs-4" id="titulo-acceso">Acceder a El Asador</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <div class="alert alert-danger" id="acceso-error" role="alert" hidden></div>
+          <div class="campo mb-3">
+            <label for="acceso-correo" class="form-label">Correo electrónico</label>
+            <input type="email" class="form-control" id="acceso-correo" name="correo" autocomplete="username" required placeholder="nombre@correo.cl">
+            <div class="invalid-feedback"></div>
+          </div>
+          <div class="campo mb-3">
+            <label for="acceso-clave" class="form-label">Contraseña</label>
+            <input type="password" class="form-control" id="acceso-clave" name="clave" autocomplete="current-password" required minlength="6" placeholder="Mínimo 6 caracteres">
+            <div class="invalid-feedback"></div>
+          </div>
+          <p class="mb-3">¿Primera vez? <a href="registro.html">Crea tu cuenta de cliente</a>.</p>
+          <details class="cuentas-prueba">
+            <summary>Cuentas de prueba (solo para la demostración)</summary>
+            <ul id="cuentas-prueba">
+              <li><strong>Administrador: </strong>admin@elasador.cl / admin123</li>
+              <li><strong>Dueño: </strong>dueno@elasador.cl / dueno123</li>
+              <li><strong>Encargado de despacho: </strong>despacho@elasador.cl / despacho123</li>
+              <li><strong>Cliente: </strong>andrea.molina@correo.cl / cualquier clave de 6 o más caracteres</li>
+            </ul>
+          </details>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-contorno" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-brasa">Acceder</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Ayuda en línea: botón flotante y ventana con las preguntas frecuentes.
+     Usa el acordeón de Bootstrap, por eso no necesita JavaScript propio. -->
+<div class="ayuda">
+  <button type="button" class="ayuda-boton" data-bs-toggle="modal" data-bs-target="#modal-ayuda">
+    <i class="bi bi-question-circle-fill" aria-hidden="true"></i><span>Ayuda</span>
+  </button>
+</div>
+
+<div class="modal fade" id="modal-ayuda" tabindex="-1" aria-labelledby="titulo-ayuda" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title fs-4" id="titulo-ayuda">Ayuda en línea</h2>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        <p>Respuestas rápidas a las preguntas más frecuentes.</p>
+        <div class="accordion accordion-flush" id="acordeon-ayuda">
+          <div class="accordion-item">
+            <h3 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ayuda-horarios" aria-expanded="false" aria-controls="ayuda-horarios">Horarios</button>
+            </h3>
+            <div id="ayuda-horarios" class="accordion-collapse collapse" data-bs-parent="#acordeon-ayuda">
+              <div class="accordion-body">Atendemos de martes a domingo, de 12:00 a 23:00 h. Los lunes descansamos.</div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h3 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ayuda-despacho" aria-expanded="false" aria-controls="ayuda-despacho">Despacho</button>
+            </h3>
+            <div id="ayuda-despacho" class="accordion-collapse collapse" data-bs-parent="#acordeon-ayuda">
+              <div class="accordion-body">Despachamos gratis hasta 3 km del local. Sobre esa distancia se cobra un valor según tu comuna. <a href="servicios.html#despacho">Ver costos de despacho</a>.</div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h3 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ayuda-pago" aria-expanded="false" aria-controls="ayuda-pago">Medios de pago</button>
+            </h3>
+            <div id="ayuda-pago" class="accordion-collapse collapse" data-bs-parent="#acordeon-ayuda">
+              <div class="accordion-body">Puedes pagar en línea con Servipag o por transferencia y depósito bancario.</div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h3 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ayuda-promos" aria-expanded="false" aria-controls="ayuda-promos">Promos</button>
+            </h3>
+            <div id="ayuda-promos" class="accordion-collapse collapse" data-bs-parent="#acordeon-ayuda">
+              <div class="accordion-body">Las promociones vigentes están en la página de inicio y se agregan al carrito con un clic. <a href="index.html#promos">Ver las promos</a>.</div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h3 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ayuda-alcanza" aria-expanded="false" aria-controls="ayuda-alcanza">¿Cuánto alcanza?</button>
+            </h3>
+            <div id="ayuda-alcanza" class="accordion-collapse collapse" data-bs-parent="#acordeon-ayuda">
+              <div class="accordion-body">La parrillada para 2 alcanza para 2 personas, la familiar para 4 y la XL para 6. Para eventos usa el cotizador. <a href="servicios.html#eventos">Cotizar un evento</a>.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <span class="me-auto">¿No encontraste tu respuesta?</span>
+        <a href="contacto.html" class="btn btn-brasa">Ir a Contacto</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Contenedor de los avisos: la función avisar() de comun.js escribe aquí -->
+<div id="avisos" class="toast-container position-fixed bottom-0 start-0 p-3"></div>
+
+<!-- Aquí se arma la orden de despacho al imprimir (imprimirHoja en comun.js) -->
+<div id="hoja-impresion"></div>
+
+<!-- Scripts comunes: Bootstrap primero, luego los datos simulados y las funciones compartidas -->
+<script src="js/vendor/bootstrap.bundle.min.js"></script>
+<script src="js/datos.js"></script>
+<script src="js/comun.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>
