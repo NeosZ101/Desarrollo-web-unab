@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Panel interno · Parrilladas El Asador</title>
+  <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+  <header class="cabecera">
+    <span class="marca">Parrilladas <strong>El Asador</strong></span>
+    <span class="cuenta" id="cuenta" hidden>
+      <span id="quien"></span>
+      <button type="button" id="btn-salir" class="btn btn-contorno">Cerrar sesión</button>
+    </span>
+  </header>
+
+  <main class="contenedor">
+    <p class="mensaje" id="mensaje" role="status" aria-live="polite"></p>
+
+    <!-- Sin sesión -->
+    <section id="vista-login" class="tarjeta" hidden>
+      <h1>Panel interno</h1>
+      <p class="suave">Inicia sesión para ver los productos y los pedidos.</p>
+      <form id="form-login" autocomplete="off">
+        <label for="usuario">Usuario</label>
+        <input id="usuario" name="usuario" required autocomplete="username">
+        <label for="clave">Contraseña</label>
+        <input id="clave" name="clave" type="password" required autocomplete="current-password">
+        <button type="submit" class="btn btn-brasa">Entrar</button>
+      </form>
+      <p class="suave pequeno">Usuarios del laboratorio: ana, pedro (rol user) y ernesto (rol user y admin).</p>
+    </section>
+
+    <!-- Con sesión -->
+    <div id="vista-panel" hidden>
+      <section class="tarjeta">
+        <h2>Productos</h2>
+        <p class="suave pequeno">El botón Eliminar es la operación de administrador: con ana responde 403 y con ernesto 200.</p>
+        <div class="tabla-scroll">
+          <table>
+            <thead><tr><th>Id</th><th>Producto</th><th class="oculta-movil">Categoría</th><th class="num">Precio</th><th></th></tr></thead>
+            <tbody id="tabla-productos"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="tarjeta">
+        <h2>Pedidos</h2>
+        <div class="tabla-scroll">
+          <table>
+            <thead><tr><th>Pedido</th><th>Cliente</th><th class="oculta-movil">Comuna</th><th>Estado</th><th class="num">Total</th></tr></thead>
+            <tbody id="tabla-pedidos"></tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
