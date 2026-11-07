@@ -4,7 +4,7 @@ import os
 import secrets
 import time
 
-from fastapi import FastAPI, Header, HTTPException
+from fastapi import Depends, FastAPI, Header, HTTPException
 from pydantic import BaseModel
 
 # Inicialización de la API
@@ -13,7 +13,7 @@ app = FastAPI(
     description="Servicio de autenticación: login, introspección y logout"
 )
 
-# Secreto que debe presentar el Gateway para consultar /introspect
+# Secreto que debe presentar el Gateway para usar /introspect y /logout
 AUTH_INTROSPECTION_SECRET = os.getenv("AUTH_INTROSPECTION_SECRET")
 
 if not AUTH_INTROSPECTION_SECRET:
@@ -65,6 +65,17 @@ class TokenRequest(BaseModel):
     token: str
 
 
+# Revisa que la llamada venga del Gateway (cabecera X-Gateway-Auth-Secret)
+def verify_gateway(x_gateway_auth_secret: str = Header(default="")):
+    valid = secrets.compare_digest(
+        x_gateway_auth_secret.encode(),
+        AUTH_INTROSPECTION_SECRET.encode()
+    )
+
+    if not valid:
+        raise HTTPException(status_code=403, detail="Gateway no autorizado")
+
+
 # Endpoint de estado de salud del servicio
 @app.get("/health")
 def health():
@@ -103,19 +114,9 @@ def login(request: LoginRequest):
     }
 
 
-# Endpoint de introspección: dice si un token sigue activo
-@app.post("/introspect")
-def introspect(
-    request: TokenRequest,
-    x_introspection_secret: str = Header(default="")
-):
-    # Solo el Gateway puede preguntar si un token es válido
-    if not secrets.compare_digest(
-        x_introspection_secret.encode(),
-        AUTH_INTROSPECTION_SECRET.encode()
-    ):
-        raise HTTPException(status_code=403, detail="Gateway no autorizado")
-
+# Endpoint de introspección: dice si un token sigue activo (solo el Gateway)
+@app.post("/introspect", dependencies=[Depends(verify_gateway)])
+def introspect(request: TokenRequest):
     session = SESSIONS.get(request.token)
 
     if session is None:
@@ -134,8 +135,8 @@ def introspect(
     }
 
 
-# Endpoint de logout: cierra la sesión
-@app.post("/logout")
+# Endpoint de logout: cierra la sesión (solo el Gateway)
+@app.post("/logout", dependencies=[Depends(verify_gateway)])
 def logout(request: TokenRequest):
     # Se elimina la sesión en el servidor, el token deja de servir
     existia = SESSIONS.pop(request.token, None) is not None

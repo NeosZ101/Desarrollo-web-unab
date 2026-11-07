@@ -2,7 +2,6 @@ import os
 
 import httpx
 from fastapi import FastAPI, HTTPException, Path, Request, Response
-from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
 # Inicialización de la API
@@ -77,7 +76,7 @@ async def get_session(request: Request):
     response = await llamar_auth(
         "/introspect",
         {"token": token},
-        {"X-Introspection-Secret": vault_secrets["auth_introspection_secret"]}
+        {"X-Gateway-Auth-Secret": vault_secrets["auth_introspection_secret"]}
     )
 
     if response.status_code != 200:
@@ -183,7 +182,14 @@ async def logout(request: Request, response: Response):
     token = request.cookies.get(COOKIE)
 
     if token:
-        auth_response = await llamar_auth("/logout", {"token": token})
+        # El Auth Service también exige el secreto del Gateway para el logout
+        vault_secrets = await get_gateway_secrets()
+
+        auth_response = await llamar_auth(
+            "/logout",
+            {"token": token},
+            {"X-Gateway-Auth-Secret": vault_secrets["auth_introspection_secret"]}
+        )
 
         if auth_response.status_code != 200:
             raise HTTPException(status_code=503, detail="No se pudo cerrar la sesion")
@@ -218,10 +224,3 @@ async def delete_product(request: Request, product_id: str = Path(pattern=r"^p\d
 
     return await pedir_al_backend("DELETE", f"/products/{product_id}", session)
 
-
-# Página del panel (carpeta static), se sirve desde el mismo Gateway así no hace falta CORS
-# Si se borra la carpeta static, el Gateway sigue funcionando igual
-STATIC_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "static")
-
-if os.path.isdir(STATIC_DIR):
-    app.mount("/", StaticFiles(directory=STATIC_DIR, html=True), name="frontend")
